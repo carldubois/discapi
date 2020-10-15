@@ -10,8 +10,10 @@
 """
 trust, discover, import ltm, asm, afm
 """
-
+import os.path
 import sys
+sys.path += [os.path.abspath('../lib')]
+
 import argparse
 from discover import Discover
 from import_modules import Import
@@ -96,7 +98,7 @@ if __name__ == '__main__':
     config={}
 
     if file:
-    	file = '../../../config/{0}'.format(file)
+    	file = '../config/{0}'.format(file)
 	with open (file) as infile:
 	    print infile
 	    for line in infile:
@@ -115,4 +117,4 @@ if __name__ == '__main__':
     if result[0][0] == True: LOGGER.info('Device Trust - PASS.')
     if result[1] == True:    LOGGER.info('Device Discovery - PASS.')
     if result[2] == True:    LOGGER.info('ADC Import - PASS.')
-    if result[3][0] == True: LOGGER.info('AFM Import - PASS.')
+    if result[0] == True: LOGGER.info('AFM Import - PASS.')

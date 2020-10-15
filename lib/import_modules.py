@@ -2,6 +2,7 @@ import sys
 import requests
 import time
 from logger import Logger
+import json
 
 requests.packages.urllib3.disable_warnings()
 
@@ -20,10 +21,10 @@ class Import(object):
         """
         iq = self.config['bigiq']
         ip = config['bigip']
-        username = config['username']
-        password = config['password']
-        root_username = config['root_username']
-        root_password = config['root_password']
+        username = config['ip_username']
+        password = config['ip_password']
+        iq_username = config['iq_username']
+        iq_password = config['iq_password']
 
         self.logger.info("Import BIGIP {0} in LTM".format(ip))
 
@@ -32,13 +33,13 @@ class Import(object):
         device_json = {'deviceReference': {'link': link}, 'uuid': devid, 'deviceUri': 'http://' + ip + ':443', 'machineId': devid}
 
         result=0
-        response = requests.post(uri, str(device_json), auth=(username, password), verify=False)
+        response = requests.post(uri, str(device_json), auth=(iq_username, iq_password), verify=False)
         json_str = response.json()
 
         uri=json_str['selfLink'].replace('localhost', iq)
         i=0
         while True:
-            response = requests.get(uri, auth=(username, password), verify=False)
+            response = requests.get(uri, auth=(iq_username, iq_password), verify=False)
             json_str = response.json()
 
             if json_str['status'] == 'FINISHED':
@@ -64,10 +65,10 @@ class Import(object):
         """
         iq = self.config['bigiq']
         ip = config['bigip']
-        username = config['username']
-        password = config['password']
-        root_username = config['root_username']
-        root_password = config['root_password']
+        username = config['ip_username']
+        password = config['ip_password']
+        iq_username = config['iq__username']
+        iq_password = config['iq__password']
 
 
 	if afm==True:
@@ -77,13 +78,13 @@ class Import(object):
             device_json = {"deviceIp": ip, "deviceReference": {"link": link}, "snapshotWorkingConfig": 'false', "reimport": 'false', "useBigiqSync": 'false', "skipDiscovery": 'true', "validationBypassMode": "BYPASS_FINAL", "username": "admin", "createChildTasks": 'true', "name": 'import-firewall'}
  	
 	result=0
-        response = requests.post(uri, str(device_json), auth=(username, password), verify=False)
+        response = requests.post(uri, str(device_json), auth=(iq_username, iq_password), verify=False)
         json_str = response.json()
 
         uri=json_str['selfLink'].replace('localhost', iq)
         i=0
         while True:
-            response = requests.get(uri, auth=(username, password), verify=False)
+            response = requests.get(uri, auth=(iq_username, iq_password), verify=False)
             json_str = response.json()
 
             if json_str['status'] == 'FINISHED':
