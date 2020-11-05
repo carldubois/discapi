@@ -65,7 +65,7 @@ class Discover(object):
         # get device reference and return
         response = requests.get(uri, auth=(iq_username, iq_password), verify=False)
 	json_str = response.json()
-
+        #self.logger.info("Device ID {0}".json_str['machineId']
         if result==1:
             return True, json_str['machineId']
         else:
