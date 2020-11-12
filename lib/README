@@ -1,1 +1,2 @@
-
+./discImport.py --config cm.config
+./virtualServers.py --config cm.config

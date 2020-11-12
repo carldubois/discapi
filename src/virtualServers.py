@@ -21,12 +21,12 @@ def cr_vs(LOGGER, virtual, config, args):
     result_create = virtual.create_virtual(config)
     return result_create
 
-    #def ls_vs(LOGGER, virtual, config, args):
+def ls_vs(LOGGER, virtual, config, args):
     #==========================
     # List virtual
     #==========================
-    #result_list = virtual.list_virtual(config)
-    #result.append(result_trust)
+    result_list = virtual.list_virtual(config)
+    return result_list 
 
 if __name__ == '__main__':
     #==========================
@@ -39,12 +39,15 @@ if __name__ == '__main__':
     #==========================
     parser = argparse.ArgumentParser(description='Create and List Virtual Servers')
     parser.add_argument('--config', type=str, help='Configuration,IQ-IP address, user, pass.')
+    parser.add_argument('--op', type=str, help='Create or List Virtual')
 
     args = parser.parse_args()
     #==========================
     # Read config file
     #==========================
     file = args.config
+    op = args.op
+    
     config={}
 
     if file:
@@ -62,6 +65,10 @@ if __name__ == '__main__':
     # Create Virtuals and Operations
     #=============================
     Virtual = Virtuals()
-    result = cr_vs(LOGGER, Virtual, config, args)
     
+    if op == "create":
+        result = cr_vs(LOGGER, Virtual, config, args)
+    elif op == "list":
+        result = ls_vs(LOGGER, Virtual, config, args)
+
     if result == True: LOGGER.info('Create Application - PASS.')

@@ -21,7 +21,7 @@ class Virtuals(object):
 
     def create_virtual(self, config):
     	"""
-	List all virtual servers
+	Create virtual servers
     	"""
 	iq = config['bigiq']
         ip = config['bigip']
@@ -96,3 +96,27 @@ class Virtuals(object):
                     else:
                         return False
                 return True
+
+    def list_virtual(self, config):
+    	"""
+	List virtual servers
+    	"""
+	iq = config['bigiq']
+        ip = config['bigip']
+        username = config['ip_username']
+        password = config['ip_password']
+        iq_username = config['iq_username']
+        iq_password = config['iq_password']
+
+ 	self.logger.info("List all BIGIP {0} ADC Application Virutals and Health".format(ip))
+        uri = 'https://' + iq + '/mgmt/shared/index/config?$filter=allContent' + ' eq ' + '\'virtual1*\'' + ' and ' + ' kind' + ' eq ' + '\'cm:adc-core:working-config:ltm:virtual:adcvirtualstate\''
+        virtual = requests.get(str(uri), auth=(iq_username, iq_password), verify=False)
+
+        for item in virtual.json()['items']:
+        #    uri = 'https://' + iq + '/mgmt/cm/adc-core/working-config/ltm/virtual/' + item['id'] + '/stats'
+        #    health = requests.get(str(uri), auth=(iq_username, iq_password), verify=False)
+        #    print health.json()
+        
+            print "AppOwner virtual server is " + item['name']
+
+        return True
