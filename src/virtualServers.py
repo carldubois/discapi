@@ -71,4 +71,6 @@ if __name__ == '__main__':
     elif op == "list":
         result = ls_vs(LOGGER, Virtual, config, args)
 
+    print result
+
     if result == True: LOGGER.info('Create Application - PASS.')
